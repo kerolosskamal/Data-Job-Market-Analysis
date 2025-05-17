@@ -74,32 +74,40 @@ fig, ax =plt.subplots(3,1)
 sns.set_theme(style= 'ticks')
 
 for i, job_title in enumerate(job_titles):
-    df_plot = df_skills_count[df_skills_count['job_title_short'] == job_title].head(5)
-    sns.barplot(data= df_plot, x='skill_count', y = 'job_skills', ax= ax[i], hue='skill_count', palette='dark:b_r', legend= False)
+    df_plot = df_skills_perc[df_skills_perc['job_title_short'] == job_title].head(5)
+    sns.barplot(data= df_plot, x='skill_percent', y = 'job_skills', ax= ax[i], hue='skill_count', palette='dark:b_r', legend= False)
     ax[i].set_ylabel('')
     ax[i].set_xlabel('')
     ax[i].set_title(job_title)
-    ax[i].set_xlim(0,45000)
+    ax[i].set_xlim(0, 78)
+
+    # remove the x-axis tick labels for better readability
+    if i != len(job_titles) - 1:
+        ax[i].set_xticks([])
 
 
-fig.suptitle('Counts of Skills Requested in USA')
-fig.tight_layout()
+    # label the percentage on the bars
+    for n, v in enumerate(df_plot['skill_percent']):
+        ax[i].text(v + 1, n, f'{v:.0f}%', va='center')
+
+
+fig.suptitle('Likelihood of Skills Requested in US Job Postings')
+fig.tight_layout(h_pad=.8)
 plt.show()
 ```
 ### Results
 
-![Counts of Skills Requested in USA](https://github.com/user-attachments/assets/a69878f6-4505-45eb-86f9-a57101639d33)
+![Likelihood of Skills Requested in US Job Posting](https://github.com/user-attachments/assets/2ae18801-d825-4a0c-a595-029a3ced0910)
 
 
 *Bar graph visualizing the salary for the top 3 data roles and their top 5 skills associated with each.*
 
 ### Insights:
 
-- SQL is the most requested skill for Data Analysts and Data Scientists, with it in over half the job postings for both roles. For Data Engineers, Python is the most sought-after skill.
+ SQL is the most requested skill for Data Analysts and Data Scientists, with it in over half the job postings for both roles. For Data Engineers, Python is the most sought-after skill, appearing in 68% of job postings.
 - Data Engineers require more specialized technical skills (AWS, Azure, Spark) compared to Data Analysts and Data Scientists who are expected to be proficient in more general data management and analysis tools (Excel, Tableau).
-- Python is a versatile skill, highly demanded across all three roles.
+- Python is a versatile skill, highly demanded across all three roles, but most prominently for Data Scientists (72%) and Data Engineers (65%).
 
-  
 
 ## 2. How are in-demand skills trending for Data Analysts?
 
